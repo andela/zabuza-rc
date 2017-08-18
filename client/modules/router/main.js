@@ -182,6 +182,13 @@ Router.initPackageRoutes = () => {
       }
     });
 
+    shop.route("/about", {
+      name: "about",
+      action() {
+        ReactionLayout({ template: "aboutRC" });
+      }
+    });
+
     // get package registry route configurations
     for (const pkg of pkgs) {
       const newRoutes = [];
