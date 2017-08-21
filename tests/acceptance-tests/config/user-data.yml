@@ -1,10 +1,12 @@
+
 admin_user: Admin
-admin_email: u3mxjmqx@localhost
-admin_pw: scgsqYPb
+admin_email: amxgpeob@localhost
+admin_pw: TK0wXgCt
 
-guest_email: "guest@reactioncommerce.com"
-guest_pw: password123
-
+guest_pw: 
+guest_email: 
+guest_user: Guest
+wallet_history: Transaction History
 # shop address
 country: US
 name: Lewis Hamilton

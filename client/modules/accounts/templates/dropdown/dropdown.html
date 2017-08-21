@@ -1,7 +1,7 @@
 <template name="loginDropdown">
   <div class="dropdown" role="menu">
     {{#if currentUser}}
-    <div class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000">
+    <div class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000"  data-event-action="user-accounts-dropdown-click">
       {{!--> avatar user=currentUser class="circular-icon" size="small" shape="circle"--}}
       <img class="circular-icon" src="{{getGravatar currentUser 40}}" alt="avatar" />
       <span id="logged-in-display-name"> {{displayName}}<b class="caret"></b></span>
@@ -45,6 +45,7 @@
         </a>
       </li>
     {{/each}}
+     {{> walletMenu}}
   </ul>
 </template>
 
@@ -65,4 +66,15 @@
     <span class="icon-text" data-i18n="accountsUI.signedIn">You are signed in.</span>
   </li>
   {{/each}}
+</template>
+
+<template name="walletMenu">
+  <li id="wallet" class="dropdown-apps-icon" data-event-action="wallet-click">
+    <a href={{pathFor 'wallet'}} title="My Wallet">
+      <i class="fa fa-google-wallet"></i>
+      <span class="icon-text">
+        My Wallet
+      </span>
+    </a>
+  </li>
 </template>
