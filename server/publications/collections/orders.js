@@ -1,4 +1,4 @@
-import { Orders } from "/lib/collections";
+import { Orders, Shops } from "/lib/collections";
 import { Reaction } from "/server/api";
 
 /**
@@ -13,7 +13,7 @@ Meteor.publish("Orders", function () {
   if (!shopId) {
     return this.ready();
   }
-  if (Roles.userIsInRole(this.userId, ["admin", "owner"], shopId)) {
+  if (Roles.userIsInRole(this.userId, ["admin"], shopId)) {
     return Orders.find({
       shopId: shopId
     });

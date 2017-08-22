@@ -5,6 +5,7 @@ import { Job } from "meteor/vsivsi:job-collection";
 import * as Collections from "/lib/collections";
 import * as Schemas from "/lib/collections/schemas";
 import { GeoCoder, Logger, Reaction } from "/server/api";
+import { getCurrShop } from "/server/imports/fixtures/shops";
 
 /**
  * Reaction Shop Methods
@@ -54,6 +55,15 @@ Meteor.methods({
     Logger.info("Created shop: ", shop._id);
     Roles.addUsersToRoles([currentUser, userId], adminRoles, shop._id);
     return shop._id;
+  },
+
+  /**
+   * shop/getShop
+   * @summary determine the current shop from the user id
+   * @return {Object} returns the current shop
+   */
+  "shop/getShop": function () {
+    return getCurrShop(Meteor.userId());
   },
 
   /**

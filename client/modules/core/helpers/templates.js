@@ -3,6 +3,7 @@ import { Reaction } from "../";
 import * as Collections from "/lib/collections";
 import * as Schemas from "/lib/collections/schemas";
 import { Meteor } from "meteor/meteor";
+import { Session } from "meteor/session";
 import { Template } from "meteor/templating";
 import moment from "moment-timezone";
 
@@ -169,8 +170,19 @@ Template.registerHelper("toCamelCase", function (str) {
  * @return {String} returns site name
  */
 Template.registerHelper("siteName", function () {
-  const shop = Collections.Shops.findOne();
-  return typeof shop === "object" && shop.name ? shop.name : "";
+  const user = Accounts.user();
+  const shopId = Reaction.getShopId();
+  const isVendor = Roles.userIsInRole(user, "owner", shopId);
+
+  if (isVendor) {
+    Meteor.call("shop/getShop", (err, res) => {
+      if (err) return alert(err);
+      Session.set("Shop", res);
+    });
+    const shop = Session.get("Shop");
+    return typeof shop === "object" && shop.name ? shop.name : shop;
+  }
+  return "REACTION";
 });
 
 /*
