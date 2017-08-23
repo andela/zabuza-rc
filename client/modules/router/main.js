@@ -186,6 +186,13 @@ Router.initPackageRoutes = () => {
       name: "about",
       action() {
         ReactionLayout({ template: "aboutRC" });
+    // Static Pages View Route
+    Router.route("/pages/:slug", {
+      action(params) {
+        ReactionLayout({
+          template: "staticPagesView",
+          slug: params.slug
+        });
       }
     });
 
