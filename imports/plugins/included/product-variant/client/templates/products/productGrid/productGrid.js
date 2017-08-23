@@ -5,6 +5,7 @@ import { Reaction } from "/client/api";
 import Logger from "/client/modules/logger";
 import { ReactionProduct } from "/lib/api";
 import Sortable from "sortablejs";
+import { Meteor } from "meteor/meteor";
 
 /**
  * productGrid helpers
