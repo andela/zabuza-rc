@@ -11,6 +11,7 @@ import { EditButton } from "/imports/plugins/core/ui/client/components";
 import { PublishContainer } from "/imports/plugins/core/revisions";
 import { ProductDetailContainer } from "/imports/plugins/included/product-detail-simple/client/containers";
 import { isRevisionControlEnabled } from "/imports/plugins/core/revisions/lib/api";
+import * as Collections from "/lib/collections";
 
 Template.productDetail.onCreated(function () {
   this.state = new ReactiveDict();
@@ -33,7 +34,8 @@ Template.productDetail.onCreated(function () {
       const product = ReactionProduct.setProduct(this.productId(), this.variantId());
       this.state.set("product", product);
 
-      if (Reaction.hasPermission("createProduct")) {
+      const auth = isProductVendor();
+      if (Reaction.hasPermission("createProduct") && (auth[0] || auth[1])) {
         if (!Reaction.getActionView() && Reaction.isActionViewOpen() === true) {
           Reaction.setActionView({
             template: "productDetailForm",
@@ -72,8 +74,8 @@ Template.productDetail.helpers({
     const product = instance.state.get("product") || {};
     const tags = instance.state.get("tags");
     const productId = product._id;
-    const canEdit = Reaction.hasPermission("createProduct");
-
+    const auth = isProductVendor();
+    const canEdit = Reaction.hasPermission("createProduct") && (auth[0] || auth[1]);
     return {
       tags,
       isEditing: canEdit,
@@ -151,8 +153,9 @@ Template.productDetail.helpers({
   showTagTitle() {
     const instance = Template.instance();
     const product = instance.state.get("product") || {};
+    const auth = isProductVendor();
 
-    if (Reaction.hasPermission("createProduct")) {
+    if (Reaction.hasPermission("createProduct") && (auth[0] || auth[1])) {
       return true;
     }
 
@@ -166,8 +169,9 @@ Template.productDetail.helpers({
   showDetailTitle() {
     const instance = Template.instance();
     const product = instance.state.get("product") || {};
+    const auth = isProductVendor();
 
-    if (Reaction.hasPermission("createProduct")) {
+    if (Reaction.hasPermission("createProduct") && (auth[0] || auth[1])) {
       return true;
     }
 
@@ -219,7 +223,8 @@ Template.productDetail.helpers({
     return null;
   },
   fieldComponent: function () {
-    if (Reaction.hasPermission("createProduct")) {
+    const auth = isProductVendor();
+    if (Reaction.hasPermission("createProduct") && (auth[0] || auth[1])) {
       return Template.productDetailEdit;
     }
     return Template.productDetailField;
@@ -232,6 +237,20 @@ Template.productDetail.helpers({
   }
 });
 
+function isProductVendor() {
+  let isVendor = false;
+  const isAdmin = Reaction.hasOwnerAccess() || Reaction.hasAdminAccess();
+  const instance = Template.instance();
+  const product = instance.state.get("product") || {};
+  const productId = product._id;
+  const productAvailable = Collections.Products.findOne({
+    _id: productId,
+    reactionVendorId: Meteor.userId()
+  });
+  if (productAvailable) isVendor = true;
+  return [isAdmin, isVendor];
+}
+
 /**
  * productDetail events
  */
@@ -239,7 +258,8 @@ Template.productDetail.helpers({
 Template.productDetail.events({
   "click #price": function () {
     let formName;
-    if (Reaction.hasPermission("createProduct")) {
+    const auth = isProductVendor();
+    if (Reaction.hasPermission("createProduct") && (auth[0] || auth[1])) {
       const variant = ReactionProduct.selectedVariant();
       if (!variant) {
         return;

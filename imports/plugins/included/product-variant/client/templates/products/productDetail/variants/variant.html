@@ -20,10 +20,18 @@
           {{/if}}
         {{/if}}
 
+        {{#if hasPermission "createProduct"}}
+          {{#if isProductVendor}}
+            <div>{{> React VariantRevisionButton}}</div>
+            <div>{{> React EditButton}}</div>
+          {{/if}}
+        {{/if}}
 
         {{#if hasPermission "createProduct"}}
-          <div>{{> React VariantRevisionButton}}</div>
-          <div>{{> React EditButton}}</div>
+          {{#if isAdmin}}
+            <div>{{> React VariantRevisionButton}}</div>
+            <div>{{> React EditButton}}</div>
+          {{/if}}
         {{/if}}
       </div>
     </div>

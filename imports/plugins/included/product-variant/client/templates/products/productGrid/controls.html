@@ -19,13 +19,15 @@
       </div>
       {{/if}}
 
-      <div>
-        {{> React VisibilityButton}}
-      </div>
+      {{#if isVendorProduct}}
+        <div>
+          {{> React VisibilityButton}}
+        </div>
 
-      <div>
-        {{> React EditButton}}
-      </div>
+        <div>
+          {{> React EditButton}}
+        </div>
+      {{/if}}
 
     </div>
   {{/if}}

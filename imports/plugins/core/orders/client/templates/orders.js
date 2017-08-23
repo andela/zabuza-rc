@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import _ from "lodash";
 import { Meteor } from "meteor/meteor";
 import { Template } from "meteor/templating";
@@ -75,6 +76,10 @@ const OrderHelper =  {
       default:
     }
 
+    const isVendor = Roles.userIsInRole(Meteor.userId(), ["vendor"], Reaction.shopId);
+    if (isVendor) {
+      query["items.0.reactionVendorId"] =  Meteor.userId();
+    }
     return query;
   }
 };
