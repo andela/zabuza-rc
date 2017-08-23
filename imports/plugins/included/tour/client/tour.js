@@ -1,9 +1,9 @@
-import introJs from "intro.js";
+import { introJs } from "intro.js";
 import { Reaction } from "/client/api";
 import { Meteor } from "meteor/meteor";
 import { Accounts } from "/lib/collections";
 
-const tour = introJs.introJs();
+const tour = introJs();
 const adminTourSteps = [
   {
     intro: `<h2>Welcome to <strong>Reaction</strong> Commerce</h2>

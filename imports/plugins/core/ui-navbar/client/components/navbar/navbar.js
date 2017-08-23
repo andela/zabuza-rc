@@ -8,10 +8,11 @@ Template.CoreNavigationBar.onCreated(function () {
 });
 
 Template.CoreNavigationBar.onRendered(function () {
+  const userId = Meteor.userId();
   currentRoute = Router.getRouteName();
   this.autorun(() => {
-    if (Accounts.findOne(Meteor.userId())) {
-      if (!Accounts.findOne(Meteor.userId()).takenTour && Accounts.findOne(Meteor.userId()).emails[0]) {
+    if (Accounts.findOne(userId)) {
+      if (!Accounts.findOne(userId).takenTour && Accounts.findOne(userId).emails[0]) {
         playTour();
       }
     }
