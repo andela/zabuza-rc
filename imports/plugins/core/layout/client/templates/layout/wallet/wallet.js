@@ -116,8 +116,8 @@ const getPaystackSettings = () => {
     shopId: Reaction.getShopId()
   });
   return {
-    public: "pk_test_e3ab9ae9c95f11b17ff0c4b115ca17a958ef0196",
-    secret: "sk_test_b5d95e343d763860063c62c0feac07659cf025df"
+    public: "pk_test_721548b2de1b20595f3e6d28af60c9c50ad95b6a",
+    secret: "sk_test_d6f154ab2d63da23196d2dedd130c10d856280f2"
   };
 };
 
