@@ -6,7 +6,7 @@
          <div class="col-md-4 col-xs-12">
           <form id="deposit" class="form-inline">
             <label class="mr-sm-2" for="inlineFormInputGroup">Deposit</label>
-            <div class="input-group" style="width:300px;">
+            <div class="input-group input">
               <input id="depositAmount" type="number" class="form-control input-success" placeholder="Amount" required>
               <span class="input-group-btn">
          <button class="form-control btn btn-success" data-event-action="fund-wallet-click" type="submit">Fund Wallet</button>
@@ -62,13 +62,13 @@
             {{/if}}
           </tbody>
         </table>
-        <div style="text-align:center;">
-          <input style="border-radius: 4px;padding: 6px 12px; border: 1px solid transparent;" class="btn-success" type="button" id="first" value="First" />
-          <input style="border-radius: 4px;padding: 6px 12px; border: 1px solid transparent;" class="btn-success" type="button" id="next" value="Next" />
-          <input style="border-radius: 4px;padding: 6px 12px; border: 1px solid transparent;" class="btn-success" type="button" id="previous" value="Previous" />
-          <input style="border-radius: 4px;padding: 6px 12px; border: 1px solid transparent;" class="btn-success" type="button" id="last" value="Last" />
+        <div class="center">
+          <input class="btn-success input-value" type="button" id="first" value="First" />
+          <input class="btn-success input-value" type="button" id="next" value="Next" />
+          <input class="btn-success input-value" type="button" id="previous" value="Previous" />
+          <input class="btn-success input-value" type="button" id="last" value="Last" />
         </div>
-        <div style="text-align:center;">
+        <div class="center">
          Page {{ getCurrentPage }}
          </div>
       </div>
@@ -187,7 +187,7 @@
                               </div>
                           </div>
                       </div>
-                      <div id="paystack-test-bank" class="paystack-test-bank animated fadeIn" style="display: none">
+                      <div id="paystack-test-bank" class="paystack-test-bank animated fadeIn display">
                           <div class="bank_header">Test Bank Details</div>
                           <div><b>Bank:</b> Zenith Bank</div>
                           <div><b>Account Number:</b> 0000000000</div>
