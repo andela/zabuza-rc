@@ -77,7 +77,7 @@ Template.CoreNavigationBar.helpers({
     return {
       component: FlatButton,
       kind: "flat",
-      label: "More Pages"
+      label: "Pages"
     };
   },
   onMenuButtonClick() {
