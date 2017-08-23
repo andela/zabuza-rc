@@ -869,7 +869,7 @@
           "userNotFound": "User not found",
           "verifyEmailLinkExpired": "Verify email link expired",
           "verifyEmailLinkIsForUnknownAddress": "Verify email link is for unknown address",
-          "matchFailed": "Match failed",
+          "matchFailed": "Invalid Credentials",
           "unknownError": "Unknown error"
         }
       },

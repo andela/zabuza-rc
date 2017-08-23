@@ -251,7 +251,6 @@ Template.wallet.events({
     Modal.show("MockPayment");
     document.getElementById("depositAmount").value = "";
   },
-
   "submit #deposit": event => {
     event.preventDefault();
     const accountDetails = Accounts.find(Meteor.userId()).fetch();
