@@ -6,7 +6,7 @@
          <div class="col-md-4 col-xs-12">
           <form id="deposit" class="form-inline">
             <label class="mr-sm-2" for="inlineFormInputGroup">Deposit</label>
-            <div class="input-group" style="width:300px;">
+            <div class="input-group wallet-width">
               <input id="depositAmount" type="number" class="form-control input-success" placeholder="Amount" required>
               <span class="input-group-btn">
          <button class="form-control btn btn-success" data-event-action="fund-wallet-click" type="submit">Fund Wallet</button>
@@ -63,10 +63,10 @@
           </tbody>
         </table>
         <div style="text-align:center;">
-          <input style="border-radius: 4px;padding: 6px 12px; border: 1px solid transparent;" class="btn-success" type="button" id="first" value="First" />
-          <input style="border-radius: 4px;padding: 6px 12px; border: 1px solid transparent;" class="btn-success" type="button" id="next" value="Next" />
-          <input style="border-radius: 4px;padding: 6px 12px; border: 1px solid transparent;" class="btn-success" type="button" id="previous" value="Previous" />
-          <input style="border-radius: 4px;padding: 6px 12px; border: 1px solid transparent;" class="btn-success" type="button" id="last" value="Last" />
+          <input class="input btn-success" type="button" id="first" value="First" />
+          <input class="input btn-success" type="button" id="next" value="Next" />
+          <input class="input btn-success" type="button" id="previous" value="Previous" />
+          <input class="input btn-success" type="button" id="last" value="Last" />
         </div>
         <div style="text-align:center;">
          Page {{ getCurrentPage }}
@@ -104,7 +104,7 @@
                           <span class="transaction-duration"></span>
                       </div>
                   </div>
-                  <div id="paystack-switch" class="paystack-switch" style="display: none">
+                  <div id="paystack-switch" class="paystack-switch display">
                       <a class="paystack-switch-card active" data-mode="card">Pay with Card</a>
                       <a class="paystack-switch-bank" data-mode="bank"><span class="new-feature">New</span>Pay with Bank</a>
                   </div>
@@ -117,7 +117,7 @@
                       <div class="error-overlay hidden reset-errors"></div>
                       <div id="card-payment-holder">
                   <div class="card-input-view">
-                      <div class="form-group paystack-email hidden" style="display: none">
+                      <div class="form-group paystack-email hidden display">
                           <input type="email" id="emailaddress" class="cc-email form-control has-floating-label" placeholder="Email Address" data-paystack="email" disabled="">
                           <label class="floating-label" for="emailaddress">Email Address</label>
                       </div>
