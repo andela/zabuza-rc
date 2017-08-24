@@ -75,9 +75,9 @@
     <div class="dropdown-menu static-pages-dropdown" role="menu">
       {{#each staticPage in staticPages}}
       <li class="dropdown-apps-icon">
-        <a href="/pages/{{staticPage.slug}}" id="{{staticPage.title}}">
+        <a href="/pages/{{staticPage.slug}}" id="{{staticPage.title}}" title="{{staticPage.title}}">
         <i class=""></i>
-      <span class="icon-text"></span>
+      <span class="icon-text">{{staticPage.title}}</span>
     </a>
       </li>
       {{/each}}

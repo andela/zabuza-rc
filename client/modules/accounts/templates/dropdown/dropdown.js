@@ -1,8 +1,8 @@
 import { Reaction, Logger } from "/client/api";
-import { Tags, StaticPages } from "./../../../../../lib/collections";
 import { Session } from "meteor/session";
 import { Meteor } from "meteor/meteor";
 import { Template } from "meteor/templating";
+import { Tags, StaticPages } from "./../../../../../lib/collections";
 
 Template.staticPagesNav.onCreated(function () {
   Meteor.subscribe("viewPages");

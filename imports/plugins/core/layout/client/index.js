@@ -17,9 +17,6 @@ import "./templates/layout/notFound/notFound.html";
 import "./templates/layout/notFound/notFound.js";
 import "./templates/layout/notice/unauthorized.html";
 import "./templates/layout/layout.html";
-import "./templates/layout/about/about.html";
-import "./templates/layout/about/about.js";
-
 import "./templates/theme/theme.html";
 import "./templates/theme/theme.js";
 import "./templates/layout/staticPages/staticPage.html";
