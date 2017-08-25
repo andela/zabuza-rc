@@ -99,6 +99,7 @@ facebook-config-ui
 google-config-ui
 twitter-config-ui
 dynamic-import
+peppelg:bootstrap-3-modal
 mizzao:autocomplete
 simple:rest
 themeteorchef:commonmark
