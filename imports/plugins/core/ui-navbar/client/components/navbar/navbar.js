@@ -66,18 +66,12 @@ Template.CoreNavigationBar.helpers({
       kind: "flat"
     };
   },
-  pageButton() {
-    return {
-      component: FlatButton,
-      kind: "flat",
-      label: "How to Shop"
-    };
-  },
+
   staticPagesMenu() {
     return {
       component: FlatButton,
       kind: "flat",
-      label: "More Pages"
+      label: "Pages"
     };
   },
   onMenuButtonClick() {
