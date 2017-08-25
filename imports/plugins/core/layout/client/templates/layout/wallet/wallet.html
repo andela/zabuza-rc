@@ -1,0 +1,202 @@
+<template name="wallet">
+  <div class="flex flex-column flex-align-center flex-2x container">
+    <div class="col-sm-12" id="transactions">
+      <h1>Wallet Balance: {{formatPrice balance}}</h1>
+      <div class="row">
+         <div class="col-md-4 col-xs-12">
+          <form id="deposit" class="form-inline">
+            <label class="mr-sm-2" for="inlineFormInputGroup">Deposit</label>
+            <div class="input-group input">
+              <input id="depositAmount" type="number" class="form-control input-success" placeholder="Amount" required>
+              <span class="input-group-btn">
+         <button class="form-control btn btn-success" data-event-action="fund-wallet-click" type="submit">Fund Wallet</button>
+      </span>
+            </div>
+          </form>
+        <button class="mockbtn" id="mockpaystack"></button>
+        </div>
+        <div class="col-md-8 col-xs-12">
+          <form id="transfer" class="form-inline">
+            <label class="mr-sm-2" for="inlineFormInputGroup">Transfer Fund</label>
+            <input id="transferAmount" class="form-control" type="number" name="amount" placeholder="Amount" required>
+            <input id="recipient" class="form-control" type="text" name="email" placeholder="Beneficiary Email" required>
+            <button id="transfer-money" type="submit" class="form-control btn btn-success">Transfer</button>
+          </form>
+        </div>
+      </div>
+      <div class="row col-xs-12">
+        <h2 id="transaction-history">Transaction History</h2>
+        <table class="table table-hover table-bordered">
+          <thead>
+            <tr>
+              <th class="bg-info text-white">Transaction Type</th>
+              <th class="bg-info text-white">Amount</th>
+              <th class="bg-info text-white">From</th>
+              <th class="bg-info text-white">To</th>
+              <th class="bg-info text-white">Order Id</th>
+              <th class="bg-info text-white">Date and Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#if getTransactions }} {{#each transaction in getTransactions }}
+            <tr>
+              <td>{{capitalize transaction.transactionType}}</td>
+              <td>{{formatPrice transaction.amount}}</td>
+              {{#if transaction.from }}
+              <td>{{transaction.from}}</td>
+              {{else}}
+              <td>Self</td>
+              {{/if}} {{#if transaction.to }}
+              <td>{{transaction.to}}</td>
+              {{else}}
+              <td>Self</td>
+              {{/if}} {{#if transaction.orderId }}
+              <td>{{transaction.orderId}}</td>
+              {{else}}
+              <td>NA</td>
+              {{/if}}
+              <td>{{formatDate transaction.date}}</td>
+            </tr>
+            {{/each}} {{else}}
+            <tr>You do not have any transaction yet!</tr>
+            {{/if}}
+          </tbody>
+        </table>
+        <div class="center">
+          <input class="btn-success input-value" type="button" id="first" value="First" />
+          <input class="btn-success input-value" type="button" id="next" value="Next" />
+          <input class="btn-success input-value" type="button" id="previous" value="Previous" />
+          <input class="btn-success input-value" type="button" id="last" value="Last" />
+        </div>
+        <div class="center">
+         Page {{ getCurrentPage }}
+         </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="MockPayment">
+  <div class="modal fade modalbg">
+      <div class="modal-dialog">
+          <div class="modal-content">   
+                  <div id="paystack-container" class="paystack-container paystack-pop paystack-full test-mode">
+                      <div id="paystack-bg" class="paystack-bg animated fadeIn"></div>
+                     
+                  <div id="paystack-wrapper" class="paystack-wrapper animated zoomIn">
+                      <div id="paystack-close-btn" data-dismiss="modal" class="paystack-close paystack-close-btn">×</div>
+                      <div class="paystack-loader">
+                          <span class="sprite sprite-spinner-lg"></span>
+                          <span class="sprite sprite-spinner-lg-dk"></span>
+                      </div>
+                      <div class="paystack-error-div"></div>
+                      <div class="paystack-box">
+                  <div class="company-logo">
+                      <div class="logo">
+                              <img class="transaction-merchant-logo" src="https://s3-eu-west-1.amazonaws.com/pstk-integration-logos/paystack.jpg" alt="RC">
+                      </div>
+                  </div>
+                  <div class="paystack-info no-switch">
+                          <div class="email transaction-email">{{ userEmail }}</div>
+                      <div class="amount">
+                          <span class="transaction-currency">NGN</span>
+                          <span class="transaction-amount">{{ getAmount }}</span>
+                          <span class="transaction-duration"></span>
+                      </div>
+                  </div>
+                  <div id="paystack-switch" class="paystack-switch" style="display: none">
+                      <a class="paystack-switch-card active" data-mode="card">Pay with Card</a>
+                      <a class="paystack-switch-bank" data-mode="bank"><span class="new-feature">New</span>Pay with Bank</a>
+                  </div>
+                  <div id="paystack-form-holder" class="paystack-form">
+                  <form id="payment-form" method="post" autocomplete="off" class="animated fadeInLeft">
+                      <div class="alert alert-danger error-message animated fadeInDown alt" role="alert">
+                          <span class="error-message-content"></span>
+                          <a class="reset-errors">Close</a>
+                      </div>
+                      <div class="error-overlay hidden reset-errors"></div>
+                      <div id="card-payment-holder">
+                  <div class="card-input-view">
+                      <div class="form-group paystack-email hidden" style="display: none">
+                          <input type="email" id="emailaddress" class="cc-email form-control has-floating-label" placeholder="Email Address" data-paystack="email" disabled="">
+                          <label class="floating-label" for="emailaddress">Email Address</label>
+                      </div>
+                      <div class="form-group card-number">
+                          <input type="tel" id="cardnumber" class="cc-number form-control has-floating-label" placeholder="0000 0000 0000 0000" autocomplete="off" data-numeric="" data-paystack="number">
+                          <label class="floating-label" for="cardnumber">Card Number</label>
+                          <span id="paystack-card"></span>
+                      </div>
+                      <div class="row form-two-input">
+                          <div class="col-xs-6">
+                              <div class="form-group card-expiry">
+                                  <input type="tel" id="expiry" class="cc-expiry form-control has-floating-label" placeholder="MM / YY" data-paystack="expiry" autocomplete="off">
+                                  <label class="floating-label" for="expiry">Valid Till</label>
+                              </div>
+                          </div>
+                          <div class="col-xs-6">
+                              <div class="form-group card-cvv">
+                                  <input type="tel" id="cvv" class="cc-cvv form-control has-floating-label" placeholder="123" data-paystack="cvv" autocomplete="off">
+                                  <label class="floating-label" for="cvv">CVV <a id="cvv-helper" class="pull-right">Help?</a></label>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <button type="button" class="btn btn-pay btn-block btn-lg" data-event-action="pay-wallet-click" data-type="card" id="pay-btn">
+                              <span class="btn-text">Pay <span class="transaction-currency">NGN</span> <b class="transaction-amount">{{ getAmount }}</b></span>
+                              <span class="btn-loader hidden"><i class="sprite sprite-spinner"></i> Please wait</span>
+                          </button>
+                      </div>
+                  </div>
+              </div>
+                  </form>
+              </div>
+              </div>
+                      <div id="paystack-footer" class="paystack-footer animated fadeIn">
+                          <i class="sprite sprite-lock inline"></i> <i class="sprite sprite-lock-white inline"></i> Secured by <b>Paystack</b>
+                          <br> <a target="_blank" href="https://paystack.com/what-is-paystack">What is Paystack?</a>
+                      </div>
+                      <div id="paystack-test-card" class="paystack-test-card animated fadeIn" style="">
+                          <div class="card_header">
+                              <p class="pull-left">Test Card</p>
+                              <div class="pull-right">
+                                  <svg xmlns="http://www.w3.org/2000/svg" class="card__logo" width="50" height="13" viewBox="0 0 175.7 53.9">
+                                      <style>
+                                      .visa {
+                                          fill: #fff;
+                                      }
+                                      </style>
+                                      <path class="visa" d="M61.9 53.1l8.9-52.2h14.2l-8.9 52.2zm65.8-50.9c-2.8-1.1-7.2-2.2-12.7-2.2-14.1 0-24 7.1-24 17.2-.1 7.5 7.1 11.7 12.5 14.2 5.5 2.6 7.4 4.2 7.4 6.5 0 3.5-4.4 5.1-8.5 5.1-5.7 0-8.7-.8-13.4-2.7l-2-.9-2 11.7c3.3 1.5 9.5 2.7 15.9 2.8 15 0 24.7-7 24.8-17.8.1-5.9-3.7-10.5-11.9-14.2-5-2.4-8-4-8-6.5 0-2.2 2.6-4.5 8.1-4.5 4.7-.1 8 .9 10.6 2l1.3.6 1.9-11.3M164.2 1h-11c-3.4 0-6 .9-7.5 4.3l-21.1 47.8h14.9s2.4-6.4 3-7.8h18.2c.4 1.8 1.7 7.8 1.7 7.8h13.2l-11.4-52.1m-17.5 33.6c1.2-3 5.7-14.6 5.7-14.6-.1.1 1.2-3 1.9-5l1 4.5s2.7 12.5 3.3 15.1h-11.9zm-96.7-33.7l-14 35.6-1.5-7.2c-2.5-8.3-10.6-17.4-19.6-21.9l12.7 45.7h15.1l22.4-52.2h-15.1"></path>
+                                      <path fill="#F7A600" d="M23.1.9h-22.9l-.2 1.1c17.9 4.3 29.7 14.8 34.6 27.3l-5-24c-.9-3.3-3.4-4.3-6.5-4.4"></path>
+                                  </svg>
+                              </div>
+                          </div>
+                          <div class="row card_group">
+                              <div class="col-xs-12">
+                                  <p>Card Number</p>
+                                  <h4>4084 0840 8408 4081</h4>
+                              </div>
+                          </div>
+                          <div class="row card_group">
+                              <div class="col-xs-6">
+                                  <p>Valid Till</p>
+                                  <h4>01 / 20</h4>
+                              </div>
+                              <div class="col-xs-6">
+                                  <p>CVV</p>
+                                  <h4>408</h4>
+                              </div>
+                          </div>
+                      </div>
+                      <div id="paystack-test-bank" class="paystack-test-bank animated fadeIn display">
+                          <div class="bank_header">Test Bank Details</div>
+                          <div><b>Bank:</b> Zenith Bank</div>
+                          <div><b>Account Number:</b> 0000000000</div>
+                          <div><b>Birthday:</b> Use any date</div>
+                          <div><b>All OTP:</b> 123456
+                      </div>
+                  </div>
+              </div></div>
+              </div>
+      </div>
+  </div>
+</template>
