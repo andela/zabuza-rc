@@ -8,8 +8,16 @@
         <span>{{orderAge}}</span>
         <span data-i18n="order.on">on</span>
         <span>{{dateFormat createdAt format="MMM D h:mm"}}</span>
+        {{#with showDigitalFileDownload}}
+          <span class="pull-right">
+            <a href="{{url download='true'}}" target="new" class="btn btn-sm navbar-btn btn-success no-round download" style="margin:0">Download</a>
+          </span>
+          {{else}}
+
+        {{/with}}
       </h3>
     </div>
+
     <div class="panel-body">
 
       <div class="row">
@@ -22,7 +30,11 @@
           {{#if orderStatus}}
               <span data-i18n="order.completed">Completed</span>
           {{else}}
+              {{#if orderCancel}}
+              <span>Canceled</span>
+              {{else}}
               <span data-i18n="order.processing">Processing</span>
+              {{/if}}
           {{/if}}
         </div>
       </div>
@@ -93,7 +105,6 @@
           {{> ordersListItems order=.}}
         </div>
       </div>
-
     </div>
 
     <div class="panel-footer">
