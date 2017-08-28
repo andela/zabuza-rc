@@ -128,7 +128,7 @@ class VariantList extends Component {
   }
 
   showIfNotDigital() {
-    if (this.props.isDigital === "" || !this.props.isDigital) {
+    if (!this.props.isDigital) {
       return (
         <div>
         <Divider
