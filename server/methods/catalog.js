@@ -2,7 +2,7 @@ import _ from  "lodash";
 import { EJSON } from "meteor/ejson";
 import { check } from "meteor/check";
 import { Meteor } from "meteor/meteor";
-import { Catalog, ReactionProduct } from "/lib/api";
+import { Catalog } from "/lib/api";
 import { Media, Products, Revisions, Tags } from "/lib/collections";
 import { Logger, Reaction } from "/server/api";
 
@@ -151,10 +151,12 @@ function copyMedia(newId, variantOldId, variantNewId) {
   Media.find({
     "metadata.variantId": variantOldId
   }).forEach(function (fileObj) {
-    // Copy File and insert directly, bypasing revision control
-    copyFile(fileObj, {
-      productId: newId,
-      variantId: variantNewId
+    const newFile = fileObj.copy();
+    return newFile.update({
+      $set: {
+        "metadata.productId": newId,
+        "metadata.variantId": variantNewId
+      }
     });
   });
 }
@@ -347,7 +349,7 @@ Meteor.methods({
         type = "parent";
         Object.assign(clone, variant, {
           _id: variantNewId,
-          title: `${variant.title} - copy`
+          title: ""
         });
       } else {
         const parentIndex = variant.ancestors.indexOf(variantId);
@@ -356,24 +358,27 @@ Meteor.methods({
         !!~parentIndex && ancestorsClone.splice(parentIndex, 1, variantNewId);
         Object.assign(clone, variant, {
           _id: Random.id(),
-          ancestors: ancestorsClone
+          ancestors: ancestorsClone,
+          optionTitle: "",
+          title: ""
         });
       }
       delete clone.updatedAt;
       delete clone.createdAt;
       delete clone.inventoryQuantity;
       copyMedia(productId, oldId, clone._id);
+
       return Products.insert(clone, {
         validate: false
       }, (error, result) => {
         if (result) {
           if (type === "child") {
-            Logger.debug(
+            Logger.info(
               `products/cloneVariant: created sub child clone: ${
                 clone._id} from ${variantId}`
             );
           } else {
-            Logger.debug(
+            Logger.info(
               `products/cloneVariant: created clone: ${
                 clone._id} from ${variantId}`
             );
@@ -381,7 +386,8 @@ Meteor.methods({
         }
         if (error) {
           Logger.error(
-            `products/cloneVariant: cloning of ${variantId} was failed: ${error}`
+            `products/cloneVariant: cloning of ${variantId} was failed: ${
+              error}`
           );
         }
       });
@@ -470,7 +476,7 @@ Meteor.methods({
         _id: variant._id
       }, {
         $set: newVariant // newVariant already contain `type` property, so we
-        // do not need to pass it explicitly
+          // do not need to pass it explicitly
       }, {
         validate: false
       }, (error, result) => {
@@ -586,7 +592,7 @@ Meteor.methods({
 
       const newProduct = Object.assign({}, product, {
         _id: productNewId
-        // ancestors: product.ancestors.push(product._id)
+          // ancestors: product.ancestors.push(product._id)
       });
       delete newProduct.updatedAt;
       delete newProduct.createdAt;
@@ -657,24 +663,43 @@ Meteor.methods({
       throw new Meteor.Error(403, "Access Denied");
     }
 
-    // if a product object was provided
+    const shopTagId = Tags.findOne({
+      name: "Shop"
+    });
+
+    let query = {};
+    const dbResult = {
+      hashtags: [shopTagId._id],
+      price: 0.00,
+      title: "",
+      type: "variant" // needed for multi-schema
+    };
+
+    if (Reaction.hasPermission("dashboard/accounts")) {
+      query = {
+        type: "simple", // needed for multi-schema
+        hashtags: [shopTagId._id]
+      };
+    } else {
+      query = {
+        type: "simple", // needed for multi-schema
+        vendorId: Meteor.userId(),
+        hashtags: [shopTagId._id]
+      };
+      dbResult.vendorId = Meteor.userId();
+    }
+
     if (product) {
       return Products.insert(product);
     }
-
-    return Products.insert({
-      type: "simple" // needed for multi-schema
-    }, {
+    // if a product object was provided
+    return Products.insert(query, {
       validate: false
     }, (error, result) => {
       // additionally, we want to create a variant to a new product
       if (result) {
-        Products.insert({
-          ancestors: [result],
-          price: 0.00,
-          title: "",
-          type: "variant" // needed for multi-schema
-        });
+        dbResult.ancestors = [result];
+        Products.insert(dbResult);
       }
     });
   },
@@ -1258,14 +1283,38 @@ Meteor.methods({
       }
     });
 
-    if (Array.isArray(product.ancestors) && product.ancestors.length) {
-      const updateId = product.ancestors[0] || product._id;
-      const updatedPriceRange = ReactionProduct.getProductPriceRange(updateId);
-
-      Meteor.call("products/updateProductField", updateId, "price", updatedPriceRange);
-    }
-
     // if collection updated we return new `isVisible` state
     return res === 1 && !product.isVisible;
+
+    Logger.debug("invalid product visibility ", productId);
+    throw new Meteor.Error(400, "Bad Request");
+  },
+  /**
+   * products/updateFileId
+   * @summary This updates the productFileId field in the document
+   *
+   * @param {String} fileId - fileId
+   * @summary This is the uploaded file id
+   *
+   * @param {String} productId - productId
+   * @summary The current productId
+   *
+   * @return {Array} result
+   */
+  "products/updateFileId": function (fileId, productId) {
+    check(fileId, String);
+    check(productId, String);
+
+    const result = Products.update(productId, {
+      $addToSet: {
+        productFileId: fileId
+      }
+    }, {
+      selector: {
+        type: "simple"
+      }
+    });
+
+    return result;
   }
 });

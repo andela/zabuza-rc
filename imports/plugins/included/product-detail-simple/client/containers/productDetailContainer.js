@@ -6,17 +6,24 @@ import { Reaction, i18next, Logger } from "/client/api";
 import { Tags, Media } from "/lib/collections";
 import { Loading } from "/imports/plugins/core/ui/client/components";
 import { ProductDetail } from "../components";
-import { SocialContainer, VariantListContainer } from "./";
+import { SocialContainer, VariantListContainer} from "./";
 import { MediaGalleryContainer } from "/imports/plugins/core/ui/client/containers";
 import { DragDropProvider, TranslationProvider } from "/imports/plugins/core/ui/client/providers";
+import * as Collections from "/lib/collections";
+
 
 class ProductDetailContainer extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      cartQuantity: 1
+      cartQuantity: 1,
+      isDigital: ""
     };
+    this.listenToIsDigital = this.listenToIsDigital.bind(this);
+  }
+  get isDigital() {
+    return ReactionProduct.isDigitalProduct(this.props.product._id);
   }
 
   handleCartQuantityChange = (event, quantity) => {
@@ -68,9 +75,9 @@ class ProductDetailContainer extends Component {
         });
       } else {
         productId = currentProduct._id;
-
+        const isDigital = currentProduct.isDigital;
         if (productId) {
-          Meteor.call("cart/addToCart", productId, currentVariant._id, quantity, (error) => {
+          Meteor.call("cart/addToCart", productId, currentVariant._id, quantity, isDigital, (error) => {
             if (error) {
               Logger.error("Failed to add to cart.", error);
               return error;
@@ -144,6 +151,12 @@ class ProductDetailContainer extends Component {
     ReactionProduct.maybeDeleteProduct(this.props.product);
   }
 
+// Works well for specific vendorId
+// Todo: autoupdates of vendor names for admin view, search entire product collections.
+  listenToIsDigital(isDigital) {
+    this.setState({isDigital: isDigital});
+  }
+
   render() {
     return (
       <TranslationProvider>
@@ -155,7 +168,8 @@ class ProductDetailContainer extends Component {
             onCartQuantityChange={this.handleCartQuantityChange}
             onViewContextChange={this.handleViewContextChange}
             socialComponent={<SocialContainer />}
-            topVariantComponent={<VariantListContainer />}
+            isDigital={this.isDigital}
+            topVariantComponent={<VariantListContainer product={this.props.product} isDigital={this.isDigital} />}
             onDeleteProduct={this.handleDeleteProduct}
             onProductFieldChange={this.handleProductFieldChange}
             {...this.props}
@@ -177,6 +191,7 @@ function composer(props, onData) {
   const variantId = Reaction.Router.getParam("variantId");
   const revisionType = Reaction.Router.getQueryParam("revision");
   const viewProductAs = Reaction.Router.getQueryParam("as");
+
 
   let productSub;
 
@@ -237,11 +252,17 @@ function composer(props, onData) {
       }
 
       let editable;
+      const switchedProductsView = Session.get("switchProducts");
 
-      if (viewProductAs === "customer") {
+      if (viewProductAs === "customer" || switchedProductsView === "all") {
         editable = false;
       } else {
-        editable = Reaction.hasPermission(["createProduct"]);
+        const check = Collections.Products.findOne({vendorId: Meteor.userId(), _id: productId});
+        if (check) {
+          editable = true;
+        } else {
+          editable = Reaction.hasPermission(["createProduct"]);
+        }
       }
 
       onData(null, {
