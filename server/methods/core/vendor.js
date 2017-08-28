@@ -1,5 +1,6 @@
 import { Meteor } from "meteor/meteor";
 import { check } from "meteor/check";
+import Promise from "meteor/promise";
 import * as Collections from "/lib/collections";
 
 Meteor.methods({
@@ -35,8 +36,10 @@ Meteor.methods({
     throw new Meteor.Error(500, "Vendor Id Not Found", "Vendor");
   },
   "vendor/getVendorDetails"() {
+    console.log("Did i even call this vendor function at all");
     const profile = Collections.Accounts.find({userId: Meteor.userId()}).fetch();
     if (profile.length > 0 && profile[0].profile !== undefined && profile[0].profile.vendorDetails !== undefined) {
+      console.log("inside the vendor/getVendorId", profile[0].profile.vendorDetails[0]);
       return (profile[0].profile.vendorDetails[0]);
     }
     throw new Meteor.Error(500, "Vendor Details Not Found", "Vendor");

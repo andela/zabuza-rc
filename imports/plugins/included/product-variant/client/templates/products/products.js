@@ -159,8 +159,16 @@ Template.products.helpers({
       return (vendor[0].profile.vendorDetails[0]);
     }
   }
-  return undefined;
+    return undefined;
   },
+
+  capitalizeShopName() {
+    const shopName = Reaction.Router.getParam("shopName").split("");
+    const capsShopName = shopName[0].toUpperCase();
+    const remainingShopName = shopName.slice(1, shopName.length).join("");
+    return (capsShopName + remainingShopName);
+  },
+
   tag: function () {
     const id = Reaction.Router.getParam("_tag");
     return {

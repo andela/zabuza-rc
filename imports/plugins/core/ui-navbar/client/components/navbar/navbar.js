@@ -1,7 +1,7 @@
 import { FlatButton } from "/imports/plugins/core/ui/client/components";
 import { Reaction, Router } from "/client/api";
 import { Tags, Accounts } from "/lib/collections";
-import { playTour } from "/imports/plugins/included/tour/client/tour";
+// import { playTour } from "/imports/plugins/included/tour/client/tour";
 import * as Collections from "/lib/collections";
 
 Template.CoreNavigationBar.onCreated(function () {

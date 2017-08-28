@@ -2,10 +2,12 @@ import _ from  "lodash";
 import { EJSON } from "meteor/ejson";
 import { check } from "meteor/check";
 import { Meteor } from "meteor/meteor";
+import { Promise } from "meteor/promise";
 import { Catalog } from "/lib/api";
 import { Media, Products, Revisions, Tags } from "/lib/collections";
 import { Logger, Reaction } from "/server/api";
-import { getCurrShop } from "/server/imports/fixtures/shops";
+import * as Collections from "/lib/collections";
+// import { getCurrShop } from "/server/imports/fixtures/shops";
 
 /**
  * Reaction Product Methods
@@ -668,35 +670,33 @@ Meteor.methods({
     if (product) {
       return Products.insert(product);
     }
-    let reactionVendor = undefined;
     let shopName = "admin";
     let shopId = "admin";
-    Meteor.call("vendor/getVendorDetails", function (err, result) {
-      reactionVendor = result;
-    });
-    if (reactionVendor) {
-      shopName = reactionVendor.shopName;
-      shopId = reactionVendor._id;
+    const profile = Collections.Accounts.find({userId: Meteor.userId()}).fetch();
+    if (profile.length > 0 && profile[0].profile !== undefined
+      && profile[0].profile.vendorDetails !== undefined) {
+      shopName = (profile[0].profile.vendorDetails[0]).shopName;
+      shopId = (profile[0].profile.vendorDetails[0])._id;
     }
-    shopId = getCurrShop(Meteor.userId())._id;
-    search = {
+    vendorDetail = {
       type: "simple",
-      reactionVendor: shopName || "admin",
-      reactionVendorId: shopId || "admin"
+      reactionVendor: shopName ? shopName : "admin",
+      reactionVendorId: shopId ? shopId : "admin"
     };
-    return Products.insert(search, {
+    return Products.insert(vendorDetail, {
       validate: false
     }, (error, result) => {
       // additionally, we want to create a variant to a new product
       if (result) {
-        Products.insert({
+        const vendorInsert = {
           ancestors: [result],
-          reactionVendor: shopName || "admin",
-          reactionVendorId: shopId || "admin",
+          reactionVendor: shopName ? shopName : "admin",
+          reactionVendorId: shopId ? shopId : "admin",
           price: 0.00,
           title: "",
           type: "variant" // needed for multi-schema
-        });
+        };
+        Products.insert(vendorInsert);
       }
     });
   },
