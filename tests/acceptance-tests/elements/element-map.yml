@@ -102,3 +102,16 @@ stripe_complete_order_btn: "//form[@id='stripe-payment-form']/button"
 
 # order confirmation page
 thank_you_txt: "h3 > span"
+
+# Static page
+language: "[class='dropdown-toggle']"
+admin_dropdown: "[class='rui font-icon icon-reaction-logo']"
+static_page: "(//span[@data-i18n='admin.dashboard.manageStaticPagesLabel'])"
+page_title: "[id='static_page_title']"
+account_dropdown: "#accounts"
+dashboard_dropdown: "#dropdown-apps-dashboard"
+manage_static_page: "(//h3[@class='title'])[2]"
+created_page: "(//a[@id='About-Page'])"
+delete_page: "[class='btn btn-default deletePage']"
+confirm_delete: "[class='swal2-confirm swal2-styled']"
+home_page: "[class='brand']"
