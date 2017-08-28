@@ -32,7 +32,7 @@ Template.loginFormSignUpView.events({
   "submit form": function (event, template) {
     event.preventDefault();
 
-    const usernameInput = template.$(".login-input--username");
+    const usernameInput = template.$(".login-input-username");
     const emailInput = template.$(".login-input-email");
     const passwordInput = template.$(".login-input-password");
 

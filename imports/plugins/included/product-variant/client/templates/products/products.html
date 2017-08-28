@@ -39,7 +39,7 @@
 
 <template name="productListGrid">
   <div class="row">
-    {{>productGrid products=products}}
+    {{>productGrid products=products shopName=shopName}}
     {{#if hasPermission "createProduct"}}
       {{>productList}}
     {{/if}}

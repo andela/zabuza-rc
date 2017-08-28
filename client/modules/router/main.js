@@ -202,6 +202,26 @@ Router.initPackageRoutes = () => {
       }
     });
 
+    // Static Pages View route
+    Router.route("/pages/:slug", {
+      action(params) {
+        ReactionLayout({
+          template: "staticPageView",
+          slug: params.slug
+        });
+      }
+    });
+
+    // Shop View route
+    Router.route("/reaction/vendors/:shopName", {
+      action(params) {
+        ReactionLayout({
+          template: "products",
+          shopName: params.shopName
+        });
+      }
+    });
+
     // get package registry route configurations
     for (const pkg of pkgs) {
       const newRoutes = [];
@@ -331,6 +351,5 @@ Meteor.startup(() => {
   Router.triggers.enter(Router.Hooks.get("onEnter", "GLOBAL"));
   Router.triggers.exit(Router.Hooks.get("onExit", "GLOBAL"));
 });
-
 
 export default Router;

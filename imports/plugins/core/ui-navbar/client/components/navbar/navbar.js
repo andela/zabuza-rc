@@ -1,6 +1,7 @@
 import { FlatButton } from "/imports/plugins/core/ui/client/components";
-import { Reaction } from "/client/api";
-import { Tags } from "/lib/collections";
+import { Reaction, Router } from "/client/api";
+import { Tags, Accounts } from "/lib/collections";
+import { playTour } from "/imports/plugins/included/tour/client/tour";
 import * as Collections from "/lib/collections";
 
 Template.CoreNavigationBar.onCreated(function () {
@@ -28,6 +29,18 @@ Template.CoreNavigationBar.events({
 });
 
 Template.CoreNavigationBar.helpers({
+  TourButtonComponent() {
+    return {
+      component: FlatButton,
+      kind: "flat",
+      label: " Take Tour",
+      icon: "fa fa-rocket",
+      onClick() {
+        playTour();
+      }
+    };
+  },
+
   shopDetails() {
     let account;
     if (Roles.userIsInRole(Meteor.userId(), ["vendor"], Reaction.shopId)) {
@@ -36,6 +49,7 @@ Template.CoreNavigationBar.helpers({
     }
     return false;
   },
+
   IconButtonComponent() {
     return {
       component: FlatButton,
@@ -58,6 +72,7 @@ Template.CoreNavigationBar.helpers({
       label: "How to Shop"
     };
   },
+
   staticPagesMenu() {
     return {
       component: FlatButton,

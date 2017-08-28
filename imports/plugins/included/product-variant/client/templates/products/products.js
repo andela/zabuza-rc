@@ -117,7 +117,7 @@ Template.products.onCreated(function () {
           createdAt: 1
         }
       });
-    }    else {
+    } else {
       products = Products.find({
         ancestors: []
       // keep this, as an example
@@ -130,6 +130,7 @@ Template.products.onCreated(function () {
         }
       });
     }
+    const productCursor = products;
 
     this.state.set("canLoadMoreProducts", productCursor.count() >= Session.get("productScrollLimit"));
     this.products.set(products);
@@ -158,7 +159,7 @@ Template.products.helpers({
       return (vendor[0].profile.vendorDetails[0]);
     }
   }
-    return undefined;
+  return undefined;
   },
   tag: function () {
     const id = Reaction.Router.getParam("_tag");
