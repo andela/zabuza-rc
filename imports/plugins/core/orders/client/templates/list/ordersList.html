@@ -1,6 +1,5 @@
 <template name="dashboardOrdersList">
-
-{{#each orders data=data}}
+  {{#each orders data=data}}
   <div class="panel panel-default order-list-detail">
     <div class="panel-heading">
       <h3 class="panel-title">
@@ -36,6 +35,7 @@
               <span data-i18n="order.processing">Processing</span>
               {{/if}}
           {{/if}}
+          {{ orderStatus }}
         </div>
       </div>
 
@@ -46,18 +46,15 @@
           </strong>
         </div>
         <div class="col-xs-10">
-          {{#each shipping}}
-            {{#with address}}
-              <span>
+          {{#each shipping}} {{#with address}}
+          <span>
                 <address>
                   {{address1}}
                   {{address2}}
                   {{city}}, {{region}} {{postal}} {{country}}
                   {{phone}}
                 </address>
-              </span>
-            {{/with}}
-          {{/each}}
+              </span> {{/with}} {{/each}}
         </div>
       </div>
 
@@ -84,9 +81,7 @@
           {{#each billing}}
           <span id="order-payment-method">{{paymentMethod.storedCard}}</span>
           <span data-id="order.reference">Ref:</span>
-          <span id="order-payment-transaction">{{paymentMethod.transactionId}}</span>
-          &nbsp;
-          {{/each}}
+          <span id="order-payment-transaction">{{paymentMethod.transactionId}}</span> &nbsp; {{/each}}
         </div>
       </div>
 
@@ -110,11 +105,27 @@
     <div class="panel-footer">
       {{> ordersListSummary order=.}}
     </div>
+    {{#if hasComment}}
+    <div class="panel-footer">
+      {{> ordersListComment comments=comments}}
+    </div>
+    {{/if}}
   </div>
 
-{{else}}
+  {{else}}
   <div class="alert alert-info">
     <span data-i18n="cartCompleted.noOrdersFound">No orders found.</span>
   </div>
-{{/each}}
+  {{/each}}
+</template>
+
+<template name="ordersListComment">
+  <div>
+    <strong>Comments</strong>
+    {{#each comments}}
+      <div>
+        <p><b>{{dateFormat createdAt format="MMM D h:mm"}}</b> - {{body}}</p>
+      </div>
+    {{/each}}
+  </div>
 </template>
