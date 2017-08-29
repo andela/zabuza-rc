@@ -178,6 +178,71 @@ Meteor.methods({
   },
 
   /**
+   * orders/cancelOrder
+   *
+   * @summary Cancel an Order
+   * @param {Object} order - order object
+   * @return {Object} return update result
+   */
+  "orders/cancelOrder"(order) {
+    check(order, Object);
+    return Orders.update(order._id, {
+      $set: {
+        "workflow.status": "canceled"
+      },
+      $addToSet: {
+        "workflow.workflow": "coreOrderWorkflow/canceled"
+      }
+    });
+  },
+
+  /**
+   * orders/vendorCancelOrder
+   *
+   * @summary Cancel an Order
+   * @param {Object} order - order object
+   * @param {Object} newComment - new comment object
+   * @return {Object} return update result
+   */
+  "orders/vendorCancelOrder"(order, newComment) {
+    check(order, Object);
+    check(newComment, Object);
+
+    if (!Reaction.hasPermission("orders")) {
+      throw new Meteor.Error(403, "Access Denied");
+    }
+
+    // Send an email notificcation with SENDGRID
+    Reaction.Email.send({
+      to: order.email,
+      from: "boromir.rc@email.com",
+      subject: "REACTION Commerce Order Cancelled",
+      html: `<div><p>Hello, </p>
+        <p>Your order was cancelled for the following reason</p>
+        <strong>
+          <p>Item Ordered:   ${order.items[0].title}</p>
+          <p style="color: red;">Reason:   ${newComment.body}</p>
+          <p>Time:   ${newComment.updatedAt}</p>
+        <strong><br><br>
+        <p>Best Regards, <p>
+        <p> Reaction Commerce Admin </p>
+      </div>`
+    });
+    // TODO: Refund order
+    return Orders.update(order._id, {
+      $set: {
+        "workflow.status": "canceled"
+      },
+      $push: {
+        comments: newComment
+      },
+      $addToSet: {
+        "workflow.workflow": "coreOrderWorkflow/canceled"
+      }
+    });
+  },
+
+  /**
    * orders/processPayment
    *
    * @summary trigger processPayment and workflow update
@@ -434,8 +499,9 @@ Meteor.methods({
     Reaction.Email.send({
       to: order.email,
       from: `${shop.name} <${shop.emails[0].address}>`,
-      subject: "Your order is confirmed",
-      // subject: `Order update from ${shop.name}`,
+            // subject: "Your order is confirmed",
+      	     subject: `Order update from ${shop.name}`,
+         // subject: "Your order is confirmed",
       html: SSR.render(tpl,  dataForOrderEmail)
     });
 
