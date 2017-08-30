@@ -9,9 +9,6 @@ beforeEach(function () {
   const browserConfig = yaml.safeLoad(fs.readFileSync("./tests/acceptance-tests/config/settings.yml", "utf8"));
   const baseUrl = browserConfig.base_url.toString();
   browser.url(baseUrl);
-  // browser.getSession().then(function (sessionid) {
-  //   browser.sessionID = sessionid.id_;
-  // });
 });
 
 describe("Wallet Payment", function () {
@@ -28,9 +25,9 @@ describe("Wallet Payment", function () {
     helper.startUp(eleMap, eleIds, getId, usrData, browser);
 
     browser.click(".brand");
-    browser.pause("6000");
-    browser.click("#5gnC8virkPj49ABrJ");
-    browser.pause("6000");
+    browser.pause("8000");
+    browser.click("#BCTMZ6HTxFSppJESk");
+    browser.pause("8000");
     browser.scroll(0, 300);
     browser.pause("4000");
     browser.click(eleMap.red_option);
@@ -48,6 +45,5 @@ describe("Wallet Payment", function () {
     browser.click("#pay-with-wallet");
     browser.pause("5000");
     browser.switchTab();
-    expect(browser.getText(".flex-item-fill")).to.equal("Cancel Order");
   });
 });
