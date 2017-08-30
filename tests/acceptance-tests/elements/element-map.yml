@@ -8,6 +8,7 @@ login_email_fld: "[class='form-control login-input-email']"
 search_test: "[class='search search-test']"
 login_pw_fld: "[class='form-control login-input-password']"
 login_btn: "[data-event-action='submitSignInForm']"
+filter_click: "[data-event-action='filter']"
 
 #account profile
 pl_email_address_fld: "//div[2]/div/div/div/form/div/input"
