@@ -19,8 +19,6 @@ describe("Fund wallet and Transfer fund", function () {
     const eleMap = yaml.safeLoad(fs.readFileSync("./tests/acceptance-tests/elements/element-map.yml", "utf8"));
     const eleIds = yaml.safeLoad(fs.readFileSync("./tests/acceptance-tests/elements/element-ids.yml", "utf8"));
     const usrData = yaml.safeLoad(fs.readFileSync("./tests/acceptance-tests/config/user-data.yml", "utf8"));
-
-    const walletHistory = usrData.wallet_history;
     const depositAmount = "5000";
     const transferAmount = "5000";
     const secondEmail = "dnlamah1@gmail.com";
