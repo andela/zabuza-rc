@@ -29,7 +29,7 @@ describe("Wallet Payment", function () {
 
     browser.click(".brand");
     browser.pause("6000");
-    browser.click("#Y3scxJ2CCQ6xxsT9k");
+    browser.click("#jjWtNY2MFhmevQ2Tm");
     browser.pause("6000");
     browser.scroll(0, 300);
     browser.pause("4000");
