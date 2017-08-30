@@ -9,12 +9,9 @@ beforeEach(function () {
   const browserConfig = yaml.safeLoad(fs.readFileSync("./tests/acceptance-tests/config/settings.yml", "utf8"));
   const baseUrl = browserConfig.base_url.toString();
   browser.url(baseUrl);
-  // browser.getSession().then(function (sessionid) {
-  //   browser.sessionID = sessionid.id_;
-  // });
 });
 
-describe("Fund wallet and Transfer fund", function () {
+xdescribe("Fund wallet and Transfer fund", function () {
   it("User can successfully fund wallet and transfer to another wallet", function () {
     const eleMap = yaml.safeLoad(fs.readFileSync("./tests/acceptance-tests/elements/element-map.yml", "utf8"));
     const eleIds = yaml.safeLoad(fs.readFileSync("./tests/acceptance-tests/elements/element-ids.yml", "utf8"));
@@ -23,7 +20,7 @@ describe("Fund wallet and Transfer fund", function () {
     const walletHistory = usrData.wallet_history;
     const depositAmount = "5000";
     const transferAmount = "5000";
-    const secondEmail = "dnlamah1@gmail.com";
+    const secondEmail = "joy@ada.com";
 
     helper.startUp(eleMap, eleIds, getId, usrData, browser);
 
