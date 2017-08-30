@@ -34,3 +34,4 @@ exports.startUp = (eleMap, eleIds, getId, usrData, browser) => {
   browser.click(eleMap.login_btn);
   browser.pause("5000");
 };
+
