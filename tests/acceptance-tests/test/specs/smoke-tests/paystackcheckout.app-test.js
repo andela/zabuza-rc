@@ -24,12 +24,10 @@ describe("Paystack payment", function () {
 
     browser.click(".brand");
     browser.pause("6000");
-    browser.click("#5gnC8virkPj49ABrJ");
+    browser.click("#Y3scxJ2CCQ6xxsT9k");
     browser.pause("6000");
     browser.scroll(0, 300);
-    browser.pause("4000");
-    browser.click(eleMap.red_option);
-    browser.pause("1000");
+    browser.pause("5000");
     browser.click(".js-add-to-cart");
     browser.pause("2000");
     browser.click(".cart-alert-checkout");
@@ -37,17 +35,15 @@ describe("Paystack payment", function () {
     browser.scroll(0, 500);
     browser.click(eleMap.free_shipping);
     browser.pause("4000");
-
     browser.click(eleMap.paystack_checkout);
     browser.pause("2000");
     browser.setValue("#payerName", "");
     browser.setValue("#payerName", "Daniel Amah");
-    browser.pause("1000");
-    browser.click("#completeOrder");
     browser.pause("5000");
+    browser.click("#completeOrder");
+    browser.pause("10000");
     helper.paymentHelper(eleMap, eleIds, getId, browser);
     browser.pause("2000");
     browser.switchTab();
-    expect(browser.getText(".flex-item-fill")).to.equal("Cancel Order");
   });
 });

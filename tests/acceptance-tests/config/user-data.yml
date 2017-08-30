@@ -1,12 +1,13 @@
 
 admin_user: Admin
-admin_email: amxgpeob@localhost
-admin_pw: TK0wXgCt
+admin_email: admin@localhost
+admin_pw: r3@cti0n
 
 guest_pw: 
 guest_email: 
 guest_user: Guest
 wallet_history: Transaction History
+
 # shop address
 country: US
 name: Lewis Hamilton
