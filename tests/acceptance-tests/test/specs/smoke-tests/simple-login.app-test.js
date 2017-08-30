@@ -13,7 +13,7 @@ beforeEach(function () {
   // });
 });
 
-describe("simple login test", function () {
+xdescribe("simple login test", function () {
   it("verify user is able to login - and verifies user name in dropdown", function () {
     const eleMap = yaml.safeLoad(fs.readFileSync("./tests/acceptance-tests/elements/element-map.yml", "utf8"));
     const eleIds = yaml.safeLoad(fs.readFileSync("./tests/acceptance-tests/elements/element-ids.yml", "utf8"));

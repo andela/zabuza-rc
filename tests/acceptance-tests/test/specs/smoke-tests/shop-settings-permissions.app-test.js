@@ -14,7 +14,7 @@ afterEach(function () {
 
 });
 
-describe("core permissions test", function () {
+xdescribe("core permissions test", function () {
   const eleMap = yaml.safeLoad(fs.readFileSync("./tests/acceptance-tests/elements/element-map.yml", "utf8"));
   it("verify admin adding dashboard permissions to guest", function () {
     adminUser.UserActions.userLogin("admin");
