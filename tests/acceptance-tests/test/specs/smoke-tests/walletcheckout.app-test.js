@@ -25,13 +25,11 @@ describe("Wallet Payment", function () {
     helper.startUp(eleMap, eleIds, getId, usrData, browser);
 
     browser.click(".brand");
-    browser.pause("8000");
-    browser.click("#BCTMZ6HTxFSppJESk");
-    browser.pause("8000");
+    browser.pause("6000");
+    browser.click("#Y3scxJ2CCQ6xxsT9k");
+    browser.pause("6000");
     browser.scroll(0, 300);
-    browser.pause("4000");
-    browser.click(eleMap.red_option);
-    browser.pause("1000");
+    browser.pause("5000");
     browser.click(".js-add-to-cart");
     browser.pause("2000");
     browser.click(".cart-alert-checkout");
@@ -39,7 +37,6 @@ describe("Wallet Payment", function () {
     browser.scroll(0, 500);
     browser.click(eleMap.free_shipping);
     browser.pause("4000");
-
     browser.click("#walletBtn");
     browser.pause("1000");
     browser.click("#pay-with-wallet");
