@@ -70,13 +70,13 @@
 
 <template name="staticPagesNav">
   <div class="dropdown" role="menu">
-    <div class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000">
-      <span id="just-created-pages">Pages<b class="caret"></b></span>
+    <div class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-event-action="pages-dropdown-click" id="static-pages">
+      <span id="looged-in-display-name">Pages<b class="caret"></b></span>
     </div>
     <div class="dropdown-menu static-pages-dropdown" role="menu">
       {{#each staticPage in staticPages}}
       <li class="dropdown-apps-icon">
-        <a href="/pages/{{staticPage.slug}}" id="{{staticPage.title}}" title="{{staticPage.title}}">
+        <a href="/pages/{{staticPage.slug}}" id="{{staticPage.title}}" title="{{staticPage.title}}" class="static-pages">
         <i class=""></i>
       <span class="icon-text">{{staticPage.title}}</span>
     </a>

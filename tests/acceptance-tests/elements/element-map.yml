@@ -13,6 +13,8 @@ sign_up: "[data-event-action='signUp']"
 register_btn: "[data-event-action='register']"
 analytics: "[data-i18n='admin.dashboard.actionableAnalyticsLabel']"
 
+
+
 #account profile
 pl_email_address_fld: "//div[2]/div/div/div/form/div/input"
 pl_password_fld: "//div[2]/div/div/div/form/div[2]/input"
