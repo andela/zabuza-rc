@@ -15,7 +15,7 @@ afterEach(function () {
   resetUser.resetUserPermissions();
 });
 
-xdescribe("dashboard permissions test", function () {
+describe("dashboard permissions test", function () {
   const eleMap = yaml.safeLoad(fs.readFileSync("./tests/acceptance-tests/elements/element-map.yml", "utf8"));
   it("verify admin adding dashboard permissions to guest user", function () {
     adminUser.UserActions.userLogin("admin");
