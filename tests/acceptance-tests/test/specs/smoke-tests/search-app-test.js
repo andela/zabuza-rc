@@ -9,7 +9,7 @@ beforeEach(function () {
   browser.url(baseUrl);
 });
 
-describe("Real Time Search", function () {
+xdescribe("Real Time Search", function () {
   it("should display all products that meet the search criteria", function () {
     const eleMap = yaml.safeLoad(fs.readFileSync("./tests/acceptance-tests/elements/element-map.yml", "utf8"));
     const inputText = "e";

@@ -11,7 +11,7 @@ beforeEach(function () {
   browser.url(baseUrl);
 });
 
-describe("Wallet Payment", function () {
+xdescribe("Wallet Payment", function () {
   it("Should checkout product with wallet", function () {
     const eleMap = yaml.safeLoad(fs.readFileSync("./tests/acceptance-tests/elements/element-map.yml", "utf8"));
     const eleIds = yaml.safeLoad(fs.readFileSync("./tests/acceptance-tests/elements/element-ids.yml", "utf8"));

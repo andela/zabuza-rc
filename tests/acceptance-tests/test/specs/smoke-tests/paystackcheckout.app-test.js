@@ -11,7 +11,7 @@ beforeEach(function () {
   browser.url(baseUrl);
 });
 
-describe("Paystack payment", function () {
+xdescribe("Paystack payment", function () {
   it("Should checkout product with paystack", function () {
     const eleMap = yaml.safeLoad(fs.readFileSync("./tests/acceptance-tests/elements/element-map.yml", "utf8"));
     const eleIds = yaml.safeLoad(fs.readFileSync("./tests/acceptance-tests/elements/element-ids.yml", "utf8"));
