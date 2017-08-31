@@ -1,9 +1,16 @@
 admin_user: Admin
-admin_email: u3mxjmqx@localhost
-admin_pw: scgsqYPb
+admin_email: hnqyy9yu@localhost
+admin_pw: 2_LxNcEC
 
 guest_email: "guest@reactioncommerce.com"
 guest_pw: password123
+
+vendor_usrname: "Tbc"
+vendor_email: "info@tbc.com"
+vendor_pwd: infotbc
+vendor_shopname: "TBC STORE"
+vendor_shopaddy: "Epic Towers"
+vendor_phoneno: "+234 709 889 078"
 
 # shop address
 country: US

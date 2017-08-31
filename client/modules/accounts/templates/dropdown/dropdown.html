@@ -1,12 +1,12 @@
 <template name="loginDropdown">
   <div class="dropdown" role="menu">
     {{#if currentUser}}
-    <div class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000">
+    <div class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-event-action="user-accounts-dropdown-click">
       {{!--> avatar user=currentUser class="circular-icon" size="small" shape="circle"--}}
       <img class="circular-icon" src="{{getGravatar currentUser 40}}" alt="avatar" />
       <span id="logged-in-display-name"> {{displayName}}<b class="caret"></b></span>
     </div>
-    <div class="dropdown-menu" role="menu">
+    <div class="dropdown-menu" id="logout-dropdown-menu" role="menu">
       {{> userDropdown}}
     </div>
     {{else}}
@@ -28,7 +28,6 @@
     </div>
     <div class="btn btn-primary btn-block" id="logout" data-i18n="accountsUI.signOut">Sign Out</div>
   </div>
-
 </template>
 
 <template name="accountsDropdownApps">
@@ -36,8 +35,8 @@
     {{> userAccountsDropdown}}
     <!--administrative shortcut icons -->
     {{#each reactionApps provides="shortcut" enabled=true}}
-      <li class="dropdown-apps-icon">
-        <a href={{pathFor name}} id="dropdown-apps-{{name}}" title="{{label}}">
+      <li class="dropdown-apps-icon ">
+        <a href={{pathFor name}} class="drop-id-{{@index}}" id="dropdown-apps-{{name}}" title="{{label}}">
           <i class="{{icon}}"></i>
           <span class="icon-text">
             {{i18n i18nKeyLabel label}}

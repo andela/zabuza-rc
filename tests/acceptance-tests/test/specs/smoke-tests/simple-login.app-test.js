@@ -13,7 +13,7 @@ beforeEach(function () {
   // });
 });
 
-describe("simple login test", function () {
+xdescribe("simple login test", function () {
   it("verify user is able to login - and verifies user name in dropdown", function () {
     const eleMap = yaml.safeLoad(fs.readFileSync("./tests/acceptance-tests/elements/element-map.yml", "utf8"));
     const eleIds = yaml.safeLoad(fs.readFileSync("./tests/acceptance-tests/elements/element-ids.yml", "utf8"));
@@ -30,7 +30,7 @@ describe("simple login test", function () {
     browser.setValue(getId.retId(eleIds.login_email_fld_id), adminEmail);
     browser.setValue(getId.retId(eleIds.login_pw_fld_id), adminPassword);
     browser.click(eleMap.login_btn);
-    browser.pause("5000");
+    browser.pause("2000");
     expect(browser.getText("#logged-in-display-name")).to.equal(adminUserName);
   });
 });

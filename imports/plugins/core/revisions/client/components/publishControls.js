@@ -174,6 +174,7 @@ class PublishControls extends Component {
       <Popover
         buttonElement={
           <Button
+            id="publish-btn"
             disabled={this.hasChanges === false}
             label="Publish Changes"
             onClick={this.handlePublishClick}
