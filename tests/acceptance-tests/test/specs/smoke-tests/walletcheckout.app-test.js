@@ -20,20 +20,21 @@ describe("Wallet Payment", function () {
     helper.startUp(eleMap, eleIds, getId, usrData, browser);
 
     browser.click(".brand");
-    browser.pause("6000");
-    browser.click("#Y3scxJ2CCQ6xxsT9k");
+    browser.waitForExist("#jjWtNY2MFhmevQ2Tm");
+    browser.click("#jjWtNY2MFhmevQ2Tm");
     browser.pause("6000");
     browser.scroll(0, 300);
-    browser.pause("5000");
+    browser.waitForExist(".js-add-to-cart");
     browser.click(".js-add-to-cart");
-    browser.pause("2000");
+    browser.waitForExist(".cart-alert-checkout");
     browser.click(".cart-alert-checkout");
     browser.pause("3000");
     browser.scroll(0, 500);
+    browser.pause("2000");
     browser.click(eleMap.free_shipping);
-    browser.pause("4000");
+    browser.waitForExist("#walletBtn");
     browser.click("#walletBtn");
-    browser.pause("1000");
+    browser.waitForExist("#pay-with-wallet");
     browser.click("#pay-with-wallet");
     browser.pause("5000");
     browser.switchTab();
