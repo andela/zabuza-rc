@@ -9,9 +9,6 @@ beforeEach(function () {
   const browserConfig = yaml.safeLoad(fs.readFileSync("./tests/acceptance-tests/config/settings.yml", "utf8"));
   const baseUrl = browserConfig.base_url.toString();
   browser.url(baseUrl);
-  // browser.getSession().then(function (sessionid) {
-  //   browser.sessionID = sessionid.id_;
-  // });
 });
 
 describe("Paystack payment", function () {
@@ -24,7 +21,7 @@ describe("Paystack payment", function () {
 
     browser.click(".brand");
     browser.pause("6000");
-    browser.click("#5gnC8virkPj49ABrJ");
+    browser.click("#BCTMZ6HTxFSppJESk");
     browser.pause("6000");
     browser.scroll(0, 300);
     browser.pause("4000");
@@ -44,10 +41,9 @@ describe("Paystack payment", function () {
     browser.setValue("#payerName", "Daniel Amah");
     browser.pause("1000");
     browser.click("#completeOrder");
-    browser.pause("5000");
+    browser.pause("10000");
     helper.paymentHelper(eleMap, eleIds, getId, browser);
     browser.pause("2000");
     browser.switchTab();
-    expect(browser.getText(".flex-item-fill")).to.equal("Cancel Order");
   });
 });

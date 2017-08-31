@@ -1,11 +1,11 @@
 
 admin_user: Admin
-admin_email: amxgpeob@localhost
-admin_pw: TK0wXgCt
+admin_email: admin@localhost
+admin_pw: r3@cti0n
 
-guest_pw: 
-guest_email: 
-guest_user: Guest
+guest_usrname: Guest
+guest_email: zabuza@andela.com
+guest_pwd: zabuza123
 wallet_history: Transaction History
 # shop address
 country: US
