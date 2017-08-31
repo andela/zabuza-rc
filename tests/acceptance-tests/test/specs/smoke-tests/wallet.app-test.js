@@ -24,7 +24,7 @@ describe("Fund wallet and Transfer fund", function () {
     helper.startUp(eleMap, eleIds, getId, usrData, browser);
 
     browser.click(eleMap.user_account_dropdown_btn);
-    browser.pause("5000");
+    browser.waitForExist(eleMap.wallet_click);
     browser.click(eleMap.wallet_click);
     browser.pause("5000");
     browser.setValue(getId.customRetId(eleIds.deposit_amount_id), depositAmount);
