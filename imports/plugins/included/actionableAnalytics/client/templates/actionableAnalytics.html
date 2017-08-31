@@ -32,7 +32,7 @@
   
   <template name="overview">
     <div class="card">
-      <h2>Actionable Analytics Overview</h2>
+      <h2 id="actionable-analytics">Actionable Analytics Overview</h2>
       <ul class="list-group list-group-flush">
         <li class="list-group-item">
           <h4>Total Sales: <strong>{{totalSales}}</strong></h4>
@@ -87,7 +87,7 @@
   </template>
   
   <template name="topEarner">
-    <div class="card">
+    <div class="card" id="top_earner">
       <h2>Know what products are earning you more by their sales</h2>
       <table class="table table-striped table-hover table-responsive table-bordered">
         {{#if topEarning}}
@@ -155,7 +155,7 @@
   </template>
   
   <template name="statement">
-    <div class="card">
+    <div class="card statement">
       <h2>Individual products daily market performance guide</h2>
       <table class="table table-striped table-hover table-responsive table-bordered">
         {{#if statements}}
