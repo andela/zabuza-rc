@@ -10,7 +10,7 @@
         <span>{{dateFormat createdAt format="MMM D h:mm"}}</span>
         {{#with showDigitalFileDownload}}
           <span class="pull-right">
-            <a href="{{url download='true'}}" target="new" class="btn btn-sm navbar-btn btn-success no-round download" style="margin:0">Download</a>
+            <a href="{{url download='true'}}" target="new" class="btn btn-sm navbar-btn btn-success no-round download" style="margin:0" id="download-btn">Download</a>
           </span>
           {{else}}
 

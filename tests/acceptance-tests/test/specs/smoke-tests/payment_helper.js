@@ -22,8 +22,10 @@ exports.paymentHelper = (eleMap, eleIds, getId, browser) => {
 };
 
 exports.startUp = (eleMap, eleIds, getId, usrData, browser) => {
-  const guestEmail = process.env.REACTION_EMAIL || "varnerssar@gmail.com";
-  const guestPassword = process.env.REACTION_AUTH || "vanny123";
+
+  const guestEmail = process.env.REACTION_EMAIL || "amahdanieljack@gmail.com";
+  const guestPassword = process.env.REACTION_AUTH || "Sholada1";
+
   browser.pause("5000");
   browser.click(eleMap.login_dropdown_btn);
   browser.pause(5000);
@@ -32,3 +34,4 @@ exports.startUp = (eleMap, eleIds, getId, usrData, browser) => {
   browser.click(eleMap.login_btn);
   browser.pause("5000");
 };
+

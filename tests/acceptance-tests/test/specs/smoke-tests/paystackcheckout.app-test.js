@@ -20,26 +20,24 @@ describe("Paystack payment", function () {
     helper.startUp(eleMap, eleIds, getId, usrData, browser);
 
     browser.click(".brand");
-    browser.pause("6000");
-    browser.click("#BCTMZ6HTxFSppJESk");
+    browser.waitForExist("#jjWtNY2MFhmevQ2Tm");
+    browser.click("#jjWtNY2MFhmevQ2Tm");
     browser.pause("6000");
     browser.scroll(0, 300);
-    browser.pause("4000");
-    browser.click(eleMap.red_option);
-    browser.pause("1000");
+    browser.waitForExist(".js-add-to-cart");
     browser.click(".js-add-to-cart");
-    browser.pause("2000");
+    browser.waitForExist(".cart-alert-checkout");
     browser.click(".cart-alert-checkout");
     browser.pause("3000");
     browser.scroll(0, 500);
+    browser.pause("2000");
     browser.click(eleMap.free_shipping);
     browser.pause("4000");
-
     browser.click(eleMap.paystack_checkout);
     browser.pause("2000");
     browser.setValue("#payerName", "");
     browser.setValue("#payerName", "Daniel Amah");
-    browser.pause("1000");
+    browser.waitForExist("#completeOrder");
     browser.click("#completeOrder");
     browser.pause("10000");
     helper.paymentHelper(eleMap, eleIds, getId, browser);
