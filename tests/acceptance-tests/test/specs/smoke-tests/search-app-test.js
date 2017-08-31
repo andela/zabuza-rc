@@ -14,7 +14,7 @@ describe("Real Time Search", function () {
     const eleMap = yaml.safeLoad(fs.readFileSync("./tests/acceptance-tests/elements/element-map.yml", "utf8"));
     const inputText = "e";
 
-    browser.pause("5000");
+    browser.waitForExist(eleMap.search_test);
     browser.click(eleMap.search_test);
     browser.pause(5000);
     browser.setValue("#search-input", inputText);
@@ -25,7 +25,7 @@ describe("Real Time Search", function () {
     const eleMap = yaml.safeLoad(fs.readFileSync("./tests/acceptance-tests/elements/element-map.yml", "utf8"));
     const inputText = "ba";
 
-    browser.pause("5000");
+    browser.waitForExist(eleMap.search_test);
     browser.click(eleMap.search_test);
     browser.pause(5000);
     browser.setValue("#search-input", inputText);
