@@ -8,9 +8,6 @@ beforeEach(function () {
   const browserConfig = yaml.safeLoad(fs.readFileSync("./tests/acceptance-tests/config/settings.yml", "utf8"));
   const baseUrl = browserConfig.base_url.toString();
   browser.url(baseUrl);
-  // browser.getSession().then(function (sessionid) {
-  //   browser.sessionID = sessionid.id_;
-  // });
 });
 
 describe("actionable analytics test", function () {
@@ -35,7 +32,7 @@ describe("actionable analytics test", function () {
     browser.click("#dropdown-apps-dashboard");
     browser.pause("5000");
     browser.click(eleMap.analytics);
-    browser.pause("5000");
+    browser.pause("3000");
     expect(browser.getAttribute("h2", "actionable-analytics")).to.exist;
     expect(browser.getText("#actionable-analytics")).to.equal("Actionable Analytics Overview");
   });

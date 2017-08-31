@@ -116,3 +116,9 @@ created_page: "(//a[@id='About-Page'])"
 delete_page: "[class='btn btn-default deletePage']"
 confirm_delete: "[class='swal2-confirm swal2-styled']"
 home_page: "[class='brand']"
+page_dropdown: "#pages"
+about_page: "[class='icon-text']"
+
+# Actionable analytics
+top_seller: "[class='card']"
+top_earner: "[class='statement']"
