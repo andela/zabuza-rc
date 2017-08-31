@@ -15,8 +15,8 @@ describe("Tour Guide Tests", function () {
     const usrData = yaml.safeLoad(fs.readFileSync("./tests/acceptance-tests/config/user-data.yml", "utf8"));
 
     const guestUsrname = usrData.guest_usrname;
+    const guestEmail = `zabuza@${Math.ceil(Math.random() * 100)}.com`;
     const guestPwd = usrData.guest_pwd;
-    const guestEmail = usrData.guest_email;
 
     browser.pause("5000");
     browser.click(eleMap.login_dropdown_btn);
