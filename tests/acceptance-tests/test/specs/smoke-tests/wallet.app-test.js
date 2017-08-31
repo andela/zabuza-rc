@@ -11,7 +11,7 @@ beforeEach(function () {
   browser.url(baseUrl);
 });
 
-xdescribe("Fund wallet and Transfer fund", function () {
+describe("Fund wallet and Transfer fund", function () {
   it("User can successfully fund wallet and transfer to another wallet", function () {
     const eleMap = yaml.safeLoad(fs.readFileSync("./tests/acceptance-tests/elements/element-map.yml", "utf8"));
     const eleIds = yaml.safeLoad(fs.readFileSync("./tests/acceptance-tests/elements/element-ids.yml", "utf8"));
