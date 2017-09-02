@@ -499,9 +499,7 @@ Meteor.methods({
     Reaction.Email.send({
       to: order.email,
       from: `${shop.name} <${shop.emails[0].address}>`,
-            // subject: "Your order is confirmed",
       	     subject: `Order update from ${shop.name}`,
-         // subject: "Your order is confirmed",
       html: SSR.render(tpl,  dataForOrderEmail)
     });
 
