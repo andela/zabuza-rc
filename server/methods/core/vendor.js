@@ -29,17 +29,15 @@ Meteor.methods({
     });
   },
   "vendor/getVendorId"() {
-    const profile = Collections.Accounts.find({userId: Meteor.userId()}).fetch();
-    if (profile.length > 0 && profile[0].profile !== undefined && profile[0].profile.vendorDetails !== undefined) {
-      return (profile[0].profile.vendorDetails[0]._id);
+    const Profile = Collections.Accounts.findOne({ userId: Meteor.userId() }).fetch();
+    if (Profile && Profile.profile && Profile.profile.vendorDetails) {
+      return Profile.profile.vendorDetails[0]._id;
     }
     throw new Meteor.Error(500, "Vendor Id Not Found", "Vendor");
   },
   "vendor/getVendorDetails"() {
-    console.log("Did i even call this vendor function at all");
     const profile = Collections.Accounts.find({userId: Meteor.userId()}).fetch();
     if (profile.length > 0 && profile[0].profile !== undefined && profile[0].profile.vendorDetails !== undefined) {
-      console.log("inside the vendor/getVendorId", profile[0].profile.vendorDetails[0]);
       return (profile[0].profile.vendorDetails[0]);
     }
     throw new Meteor.Error(500, "Vendor Details Not Found", "Vendor");

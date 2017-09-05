@@ -3,7 +3,6 @@ const yaml = require("js-yaml");
 const fs   = require("fs");
 const faker = require("faker");
 const expect = require("chai").expect;
-// const getId = require("../../../lib/get-elements.js");
 
 beforeEach(function () {
   const browserConfig = yaml.safeLoad(fs.readFileSync("./tests/acceptance-tests/config/settings.yml", "utf8"));
@@ -16,7 +15,6 @@ beforeEach(function () {
 
 describe("simple login test", function () {
   const eleMap = yaml.safeLoad(fs.readFileSync("./tests/acceptance-tests/elements/element-map.yml", "utf8"));
-  // const eleIds = yaml.safeLoad(fs.readFileSync("./tests/acceptance-tests/elements/element-ids.yml", "utf8"));
 
   const usrData = yaml.safeLoad(fs.readFileSync("./tests/acceptance-tests/config/user-data.yml", "utf8"));
   const adminEmail = process.env.REACTION_EMAIL || usrData.admin_email;
@@ -26,12 +24,6 @@ describe("simple login test", function () {
   const vendorEmail = usrData.vendor_email;
   const vendorPwd = usrData.vendor_pwd;
   const shopName = usrData.vendor_shopname;
-  // const vendorUsrname = faker.name.findName();
-  // const vendorEmail = faker.internet.email();
-  // const vendorPwd = usrData.vendor_pwd;
-  // let shopName = faker.company.companyName();
-  // shopName = shopName.split(" ")[0] || shopName.split("/")[0] ||
-  //   shopName.split(",")[0] || shopName.split("-")[0];
   const shopAddress = faker.address.streetAddress();
   const phoneNo = usrData.vendor_phoneno;
 

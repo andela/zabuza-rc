@@ -165,7 +165,7 @@ export default {
 
   getShopOwner(vendorId) {
     const shop = Shops.findOne({vendorId: vendorId});
-    if (shop === undefined) return Shops.findOne();
+    if (!shop) return Shops.findOne();
     return shop;
   },
 
