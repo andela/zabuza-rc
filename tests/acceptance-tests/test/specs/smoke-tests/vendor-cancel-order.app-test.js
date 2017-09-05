@@ -58,7 +58,7 @@ describe("Vendor", function () {
     // eslint-disable-next-line
     const totalCanceled = browser.getText("#canceled");
     browser.click(eleMap.cancel_order_btn);
-    browser.pause("2000");
+    browser.pause("6000");
     browser.click(eleMap.confirm_cancel_order);
     browser.pause("6000");
     expect(Number(browser.getText("#canceled"))).to.equal(Number(totalCanceled) + 1);
