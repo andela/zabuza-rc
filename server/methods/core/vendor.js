@@ -29,24 +29,24 @@ Meteor.methods({
     });
   },
   "vendor/getVendorId"() {
-    const Profile = Collections.Accounts.findOne({ userId: Meteor.userId() }).fetch();
-    if (Profile && Profile.profile && Profile.profile.vendorDetails) {
-      return Profile.profile.vendorDetails[0]._id;
+    const Vendor = Collections.Accounts.findOne({ userId: Meteor.userId() }).fetch();
+    if (Vendor && Vendor.profile && Vendor.profile.vendorDetails) {
+      return Vendor.profile.vendorDetails[0]._id;
     }
     throw new Meteor.Error(500, "Vendor Id Not Found", "Vendor");
   },
   "vendor/getVendorDetails"() {
-    const profile = Collections.Accounts.find({userId: Meteor.userId()}).fetch();
-    if (profile.length > 0 && profile[0].profile !== undefined && profile[0].profile.vendorDetails !== undefined) {
-      return (profile[0].profile.vendorDetails[0]);
+    const Vendor = Collections.Accounts.findOne({userId: Meteor.userId()}).fetch();
+    if (Vendor && Vendor.profile && Vendor.profile.vendorDetails) {
+      return (Vendor.profile.vendorDetails[0]);
     }
     throw new Meteor.Error(500, "Vendor Details Not Found", "Vendor");
   },
   "vendor/getVendorDetailsbyShopName"(shopName) {
     check(shopName, String);
-    const vendor = Collections.Accounts.find({"profile.vendorDetails.0.shopName": shopName}).fetch();
-    if (vendor.length > 0 && vendor[0].profile !== undefined && vendor[0].profile.vendorDetails !== undefined) {
-      return (vendor[0].profile.vendorDetails[0]);
+    const Vendor = Collections.Accounts.findOne({"profile.vendorDetails.0.shopName": shopName}).fetch();
+    if (Vendor && Vendor.profile && Vendor.profile.vendorDetails !== undefined) {
+      return (Vendor.profile.vendorDetails[0]);
     }
     throw new Meteor.Error(500, "Vendor Details Not Found", "Vendor");
   },
