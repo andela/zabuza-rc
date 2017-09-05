@@ -3,6 +3,7 @@ import moment from "moment";
 import { Template } from "meteor/templating";
 import { Orders, Shops, Audio, Video, Software, Book, Products }
 from "/lib/collections";
+import { i18next } from "/client/api";
 
 /**
  * dashboardOrdersList helpers
@@ -10,7 +11,13 @@ from "/lib/collections";
  */
 Template.dashboardOrdersList.helpers({
   orderStatus() {
-    return (this.workflow.status === "coreOrderCompleted");
+    if (this.workflow.status === "coreOrderWorkflow/completed") {
+      return i18next.t("order.completed");
+    } else if (this.workflow.status === "canceled") {
+      return "Canceled";
+    }
+
+    return i18next.t("order.processing");
   },
   showDigitalFileDownload() {
     const productId = this.items[0].productId;
@@ -59,6 +66,9 @@ Template.dashboardOrdersList.helpers({
   shopName() {
     const shop = Shops.findOne(this.shopId);
     return shop !== null ? shop.name : void 0;
+  },
+  hasComment() {
+    return this.comments.length > 0;
   },
   orderCancel() {
     return (this.workflow.status === "coreOrderWorkflow/canceled");
