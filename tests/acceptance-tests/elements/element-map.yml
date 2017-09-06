@@ -65,7 +65,7 @@ checkout_btn: "#btn-checkout"
 continue_as_guest: "//a[contains(text(),'Continue as Guest')]"
 country_dd: "select[name='country']"
 save_and_continue_btn: "button.btn.btn-primary"
-free_shipping: "ul.checkout-shipping.list-group > li.list-group-item"
+free_shipping: ".checkout-shipping.list-group > .list-group-item"
 authorizenet: "h4.panel-title > span"
 authorizenet_cc: "//form/div/div[2]/input"
 authorizenet_cvv: "//div[3]/input"
@@ -97,5 +97,18 @@ stripe_exp_year: "//form[@id='stripe-payment-form']/div[2]/div[2]/select"
 stripe_cvv: "//form[@id='stripe-payment-form']/div[3]/div/input"
 stripe_complete_order_btn: "//form[@id='stripe-payment-form']/button"
 
-# order confirmation page
+# order confirmation pagese
 thank_you_txt: "h3 > span"
+
+click_wallet: "(//h4[@id='walletBtn'])"
+pay_with_wallet: "(//input[@id='pay-with-wallet'])"
+cancel_order_btn: "//button[@id='cancelOrderBtn']"
+confirm_cancel: "//button.swal2-confirm[0]"
+select_cancel_option: "(//select[@id='dropDown-comment'])"
+confirm_cancel_order: "(//button[@class='swal2-confirm swal2-styled'])"
+show_cancelled_orders: "(//a[@aria-controls='canceled'])"
+manage_orders: "(//h3[@class='title'])[2]"
+
+
+
+
