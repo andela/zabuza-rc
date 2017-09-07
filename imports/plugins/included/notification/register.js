@@ -22,7 +22,7 @@ Reaction.registerPackage({
       description: "Example payment provider",
       icon: "fa fa-credit-card-alt",
       priority: 3,
-      container: "paymentMethod"
+      container: "core"
     },
 
     // Settings panel
