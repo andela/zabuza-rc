@@ -1,6 +1,7 @@
 
 import { Meteor } from "meteor/meteor";
 import { Template } from "meteor/templating";
+import { Logger } from "/client/api";
 
 const validateComment = (comment) => {
   check(comment, Match.OptionalOrNull(String));
@@ -8,10 +9,11 @@ const validateComment = (comment) => {
   if (comment.length >= 10) {
     return true;
   } else if (comment.length === 0) {
-    return { error: "INVALID_COMMENT",
-      reason: "Specify a reason for cancelling" };
+    return {
+      error: "INVALID_COMMENT",
+      reason: "Specify a reason for cancelling"
+    };
   }
-
   // Invalid
   return {
     error: "INVALID_COMMENT",
@@ -84,10 +86,8 @@ Template.coreOrderCancelOrder.events({
       userId: Meteor.userId(),
       updatedAt: new Date
     };
-
     const state = template.state;
     const order = state.get("order");
-
     Alerts.alert({
       title: "Are you sure you want to cancel this order.",
       showCancelButton: true,
@@ -96,8 +96,20 @@ Template.coreOrderCancelOrder.events({
       if (isConfirm) {
         Meteor.call("orders/vendorCancelOrder", order, newComment, (error) => {
           if (!error) {
-            template.showCancelOrderForm.set(false);
+            const shoppersPhone = order.billing[0].address.phone;
+            Logger.info("CUSTOMER ORDER DETAILS", order.items);
+            Logger.info("CUSTOMER'S EMAIL", order.email);
+            Logger.info("CUSTOMERS PHONE NUMBER " + shoppersPhone);
+            const smsContent = {
+              to: shoppersPhone
+            };
+            comment = dropDownInput;
+            smsContent.message = "your order have been canceled. Reason:" + comment;
+            Meteor.call("send/smsAlert", smsContent, (error) => {
+              Meteor.call("orders/response/error", error, message.success);
+            });
           }
+          Logger.error(error);
         });
       }
     });
