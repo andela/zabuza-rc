@@ -1,12 +1,13 @@
 import _ from "lodash";
 import path from "path";
+import twilio from "twilio";
 import moment from "moment";
 import accounting from "accounting-js";
 import Future from "fibers/future";
 import { Meteor } from "meteor/meteor";
 import { check } from "meteor/check";
 import { getSlug } from "/lib/api";
-import { Cart, Media, Orders, Products, Shops } from "/lib/collections";
+import { Cart, Media, Orders, Products, Shops, Packages } from "/lib/collections";
 import * as Schemas from "/lib/collections/schemas";
 import { Logger, Reaction } from "/server/api";
 
@@ -371,7 +372,12 @@ Meteor.methods({
     });
 
     if (isCompleted === true) {
-      Meteor.call("workflow/pushOrderWorkflow", "coreOrderWorkflow", "completed", order._id);
+      // Meteor.call("workflow/pushOrderWorkflow", "coreOrderWorkflow", "completed", order._id);
+      // Meteor.call("orders/sendNotification", order, (err) => {
+      //   if (err) {
+      //     Logger.error(err, "orders/shipmentShipped: Failed to send notification");
+      //   }
+      // });
       return true;
     }
 
@@ -390,6 +396,31 @@ Meteor.methods({
   "orders/sendNotification": function (order) {
     check(order, Object);
 
+    const shoppersPhone = order.billing[0].address.phone;
+    Logger.info("CUSTOMER ORDER DETAILS", order.items);
+    Logger.info("CUSTOMER'S EMAIL", order.email);
+    Logger.info("CUSTOMERS PHONE NUMBER " + shoppersPhone);
+
+    const smsContent = {
+      to: shoppersPhone
+    };
+    Logger.info("smsContent for Customer", smsContent);
+    const orderItems = order.items.map((item) => {
+      return item.title;
+    });
+    Logger.info("Logger Items", orderItems.toString());
+    const message = {
+      "new": "Your Order(for " + orderItems.toString() + ") has been successfully received and is been processed. Thanks.",
+      "coreOrderWorkflow/processing": "Your orders is on the way and will soon be delivered",
+      "coreOrderWorkflow/completed": "Your orders has been shipped, thanks.",
+      "coreorderWorkflow/canceled": "Your order (for " + orderItems.toString() + ") was cancelled",
+      "success": "SMS SENT"
+    };
+
+    smsContent.message = message[order.workflow.status];
+    Meteor.call("send/smsAlert", smsContent, (error) => {
+      Meteor.call("orders/response/error", error, message.success);
+    });
     if (!this.userId) {
       Logger.error("orders/sendNotification: Access denied");
       throw new Meteor.Error("access-denied", "Access Denied");
@@ -504,6 +535,61 @@ Meteor.methods({
     });
 
     return true;
+  },
+
+  /**
+   * send/smsAlert
+   *
+   * @summary trigger sms from twilio
+   * @param {Object} smsContent - body of message object
+   * @return {Object} return success or error on completion
+   */
+  "send/smsAlert": function (smsContent) {
+    check(smsContent, Object);
+    const settings = Packages.findOne({
+      name: "notification",
+      shopId: Reaction.getShopId()
+    }).settings;
+    const  {
+      authToken,
+      accSid
+    } = settings.sms;
+    const client = new twilio(accSid, authToken);
+
+    const numb = smsContent.to;
+    let validNo;
+    if (numb.substr(0, 2) === "07" || "08") {
+      validNo = numb.replace(numb.substr(0, 1), "+234");
+    }
+    Logger.info(validNo);
+    const body =  smsContent.message;
+    client.messages.create({
+      body,
+      to: validNo || smsContent.to,
+      from: "+16304518664"
+    })
+    .then((message) => {
+      Logger.info(message);
+    }).catch((error) => {
+      Logger.info(error);
+    });
+  },
+
+  /**
+   * orders/response/error
+   * Logs message based on the error info received
+   * @param {Object} error - error message
+   * @param {String} success - success message
+   * @return {null} no return value
+   */
+  "orders/response/error": (error, success) => {
+    check(error);
+    check(success, String);
+    if (error) {
+      Logger.warn("ERROR", error);
+    } else {
+      Logger.info(success);
+    }
   },
 
   /**
