@@ -72,12 +72,10 @@ Template.ordersListSummary.events({
             };
             smsContent.message = "your order have been canceled";
             Meteor.call("send/smsAlert", smsContent, (error) => {
-              Meteor.call("orders/response/error", error, "error occurred" );
+              Meteor.call("orders/response/error", error, "error occurred");
             });
           }
-          if (error) {
-            Logger.warn(error);
-          }
+          Logger.warn(error);
         });
       }
     });
