@@ -372,17 +372,10 @@ Meteor.methods({
     });
 
     if (isCompleted === true) {
-      // Meteor.call("workflow/pushOrderWorkflow", "coreOrderWorkflow", "completed", order._id);
-      // Meteor.call("orders/sendNotification", order, (err) => {
-      //   if (err) {
-      //     Logger.error(err, "orders/shipmentShipped: Failed to send notification");
-      //   }
-      // });
       return true;
     }
 
     Meteor.call("workflow/pushOrderWorkflow", "coreOrderWorkflow", "processing", order._id);
-
     return false;
   },
 
